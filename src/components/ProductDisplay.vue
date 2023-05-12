@@ -105,6 +105,7 @@ export default {
 				</div>
 			</div>
 		</div>
+		<div class="loader"></div>
 	</div>
 	<img class="women" src="../assets/bg-pattern.png" />
 </template>
