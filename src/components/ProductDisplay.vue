@@ -5,9 +5,9 @@ export default {
 	name: "ProductDisplay",
 	data() {
 		return {
-			isLoading: !1,
+			isLoading: false,
 			index: 0,
-			isProductAvailable: !1,
+			isProductAvailable: false,
 			product: {},
 			dataFromAPI: {},
 		};
@@ -24,18 +24,34 @@ export default {
 			console.log(this.dataFromAPI);
 		},
 		async getSingleProduct() {
-			this.isLoading = !0;
-			20 !== this.index ? this.index++ : (this.index = 1);
+			console.log("test");
+			this.isLoading = true;
+			// this.index === 20 ? (this.index = 1) : this.index++;
+			// 20 !== this.index ? this.index++ : (this.index = 1);
+			if (this.index !== 20) {
+				this.index++;
+			} else {
+				this.index = 1;
+			}
 			let singleProduct = await this.getProductFromAPI();
-			"men's clothing" === singleProduct.category ||
-			"women's clothing" === singleProduct.category
+			let mens = "men's clothing" === singleProduct.category;
+			let womens = "women's clothing" === singleProduct.category;
+			mens || womens
 				? ((this.product = {
 						data: singleProduct,
 				  }),
-				  (this.isProductAvailable = !0))
-				: (this.isProductAvailable = !1);
-			this.isLoading = !1;
+				  (this.isProductAvailable = true))
+				: (this.isProductAvailable = false);
+			this.isLoading = false;
 			console.log("response :", this.dataFromAPI);
+			console.log("single product :", singleProduct);
+			console.log("women", womens);
+			console.log("men", mens);
+			console.log("index : ", this.index);
+		},
+
+		handleClick() {
+			console.log("sukses klik");
 		},
 	},
 	mounted() {
@@ -55,16 +71,14 @@ export default {
 
 <template>
 	<div class="card-layout">
-		<div class="card-product">
-			<div class="card-content">
+		<div v-if="!isLoading" class="card-product">
+			<div v-if="isProductAvailable" class="card-content">
 				<div style="display: flex; align-items: center">
-					<!-- <img src="../assets/image.png" /> -->
 					<img :src="dataFromAPI.image" style="max-width: 300px" />
 				</div>
 				<div style="width: 100%">
 					<div style="height: 70px">
-						<h1 class="women-title">
-							<!-- <h1 :class="["women's clothing" === dataFromAPI.category ? "women-title" : "men-title"]"> -->
+						<h1 :class="womens ? 'women-title' : 'men-title'">
 							{{ dataFromAPI.title }}
 						</h1>
 					</div>
@@ -94,18 +108,40 @@ export default {
 					</div>
 					<div>
 						<hr />
-						<p class="women-title">{{ formatNumber }}</p>
+						<p :class="[womens ? 'women-title' : 'men-title']">
+							{{ formatNumber }}
+						</p>
 						<div style="display: flex; gap: 1rem">
-							<button class="women-btn-buy">Buy Now</button>
-							<button class="women-btn-next" @click="getSingleProduct">
+							<button :class="womens ? 'women-btn-buy' : 'men-btn-buy'">
+								Buy Now
+							</button>
+							<button
+								:class="womens === true ? 'women-btn-next' : 'men-btn-next'"
+								@click="getSingleProduct()">
 								Next Product
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div v-else>
+				{{ "tes" }}
+				<div class="unv-bg">
+					<img src="../assets/sad-face.png" />
+				</div>
+				<div class="unv-text">
+					<p class="description" style="color: #000000; text-align: center">
+						This product is unavailable to show
+					</p>
+					<button class="unv-btn-next" @click="getSingleProduct()">
+						Next Product
+					</button>
+				</div>
+			</div>
 		</div>
-		<div class="loader"></div>
+		<div v-if="isLoading" class="loader"></div>
 	</div>
-	<img class="women" src="../assets/bg-pattern.png" />
+	<img
+		:class="womens === true ? 'bg-women' : 'bg-men'"
+		src="../assets/bg-pattern.png" />
 </template>
