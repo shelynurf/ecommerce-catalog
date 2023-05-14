@@ -10,6 +10,9 @@ export default {
 			isProductAvailable: false,
 			product: {},
 			dataFromAPI: {},
+			womens: false,
+			mens: false,
+			ratings: {},
 		};
 	},
 	methods: {
@@ -24,7 +27,6 @@ export default {
 			console.log(this.dataFromAPI);
 		},
 		async getSingleProduct() {
-			console.log("test");
 			this.isLoading = true;
 			// this.index === 20 ? (this.index = 1) : this.index++;
 			// 20 !== this.index ? this.index++ : (this.index = 1);
@@ -34,9 +36,9 @@ export default {
 				this.index = 1;
 			}
 			let singleProduct = await this.getProductFromAPI();
-			let mens = "men's clothing" === singleProduct.category;
-			let womens = "women's clothing" === singleProduct.category;
-			mens || womens
+			this.mens = singleProduct.category === "men's clothing";
+			this.womens = singleProduct.category === "women's clothing";
+			this.mens || this.womens
 				? ((this.product = {
 						data: singleProduct,
 				  }),
@@ -45,13 +47,62 @@ export default {
 			this.isLoading = false;
 			console.log("response :", this.dataFromAPI);
 			console.log("single product :", singleProduct);
-			console.log("women", womens);
-			console.log("men", mens);
-			console.log("index : ", this.index);
+			console.log("women", this.womens);
+			console.log("men", this.mens);
+			console.log(typeof this.dataFromAPI.rating.rate);
 		},
 
-		handleClick() {
-			console.log("sukses klik");
+		getRatingBullet() {
+			if (this.dataFromAPI.rating.rate <= 1) {
+				return;
+				<div>
+					<div class={"circle"}></div>
+					<div class={"circle-outline"}></div>
+					<div class={"circle-outline"}></div>
+					<div class={"circle-outline"}></div>
+					<div class={"circle-outline"}></div>
+				</div>;
+				if (this.dataFromAPI.rating.rate <= 2) {
+					return;
+					<div>
+						<div class={"circle"}></div>
+						<div class={"circle"}></div>
+						<div class={"circle-outline"}></div>
+						<div class={"circle-outline"}></div>
+						<div class={"circle-outline"}></div>
+					</div>;
+					if (this.dataFromAPI.rating.rate <= 3) {
+						return;
+						<div>
+							<div class={"circle"}></div>
+							<div class={"circle"}></div>
+							<div class={"circle"}></div>
+							<div class={"circle-outline"}></div>
+							<div class={"circle-outline"}></div>
+						</div>;
+						if (this.dataFromAPI.rating.rate <= 4) {
+							return;
+							<div>
+								<div class={"circle"}></div>
+								<div class={"circle"}></div>
+								<div class={"circle"}></div>
+								<div class={"circle"}></div>
+								<div class={"circle-outline"}></div>
+							</div>;
+							if (this.dataFromAPI.rating.rate <= 4) {
+								return;
+								<div>
+									<div class={"circle"}></div>
+									<div class={"circle"}></div>
+									<div class={"circle"}></div>
+									<div class={"circle"}></div>
+									<div class={"circle"}></div>
+								</div>;
+							}
+						}
+					}
+				}
+			}
 		},
 	},
 	mounted() {
@@ -78,7 +129,8 @@ export default {
 				</div>
 				<div style="width: 100%">
 					<div style="height: 70px">
-						<h1 :class="womens ? 'women-title' : 'men-title'">
+						<!-- <h1 :class="womens === true ? 'women-title' : 'men-title'"> -->
+						<h1 :class="womens === true ? 'women-title' : 'men-title'">
 							{{ dataFromAPI.title }}
 						</h1>
 					</div>
@@ -92,13 +144,13 @@ export default {
 						">
 						<span>{{ dataFromAPI.category }}</span>
 						<div style="display: flex; gap: 0.5rem">
-							<span>{{ dataFromAPI.rating }}/5</span>
+							<span>{{ this.dataFromAPI.rating.rate }}/5</span>
 							<div style="gap: 4px; display: flex; align-items: baseline">
-								<img src="../assets/Ellipse-5.png" />
-								<img src="../assets/Ellipse-5.png" />
-								<img src="../assets/Ellipse-5.png" />
-								<img src="../assets/Ellipse-5.png" />
-								<img src="../assets/Ellipse-5.png" />
+								<div class="women-circle"></div>
+								<div class="women-circle"></div>
+								<div class="women-circle"></div>
+								<div class="women-circle"></div>
+								<div class="women-circle"></div>
 							</div>
 						</div>
 					</div>
@@ -108,7 +160,7 @@ export default {
 					</div>
 					<div>
 						<hr />
-						<p :class="[womens ? 'women-title' : 'men-title']">
+						<p :class="womens === true ? 'women-title' : 'men-title'">
 							{{ formatNumber }}
 						</p>
 						<div style="display: flex; gap: 1rem">
@@ -125,7 +177,6 @@ export default {
 				</div>
 			</div>
 			<div v-else>
-				{{ "tes" }}
 				<div class="unv-bg">
 					<img src="../assets/sad-face.png" />
 				</div>

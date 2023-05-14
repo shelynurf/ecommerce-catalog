@@ -28,7 +28,6 @@ font-style: normal;
 font-weight: 600;
 font-size: 28px;
 line-height: 34px;
-
 color: #720060;
 
 }
@@ -38,7 +37,6 @@ font-style: normal;
 font-weight: 600;
 font-size: 28px;
 line-height: 34px;
-
 color: #002772;
 
 }
@@ -218,3 +216,45 @@ color: #3F3F3F;
     position: relative;
 }
   
+.women-circle {
+    width: 18px;
+height: 18px;
+background: #720060;
+border-radius: 18px;
+}
+
+.women-circle-outline {
+    width: 18px;
+height: 18px;
+background: #FFFFFF;
+border: 1px solid #720060;
+border-radius: 18px;
+}
+
+.men-circle {
+    width: 18px;
+height: 18px;
+background: #002772;
+border-radius: 18px;
+}
+
+.men-circle-outline {
+    width: 18px;
+height: 18px;
+background: #FFFFFF;
+border: 1px solid #002772;
+border-radius: 18px;
+}
+.circle {
+    width: 18px;
+height: 18px;
+border-radius: 18px;
+}
+
+.circle-outline {
+    width: 18px;
+height: 18px;
+background: #FFFFFF;
+border: 1px solid;
+border-radius: 18px;
+}
