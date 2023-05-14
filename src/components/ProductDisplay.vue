@@ -12,7 +12,6 @@ export default {
 			dataFromAPI: {},
 			womens: false,
 			mens: false,
-			ratings: {},
 		};
 	},
 	methods: {
@@ -28,8 +27,7 @@ export default {
 		},
 		async getSingleProduct() {
 			this.isLoading = true;
-			// this.index === 20 ? (this.index = 1) : this.index++;
-			// 20 !== this.index ? this.index++ : (this.index = 1);
+
 			if (this.index !== 20) {
 				this.index++;
 			} else {
@@ -49,60 +47,7 @@ export default {
 			console.log("single product :", singleProduct);
 			console.log("women", this.womens);
 			console.log("men", this.mens);
-			console.log(typeof this.dataFromAPI.rating.rate);
-		},
-
-		getRatingBullet() {
-			if (this.dataFromAPI.rating.rate <= 1) {
-				return;
-				<div>
-					<div class={"circle"}></div>
-					<div class={"circle-outline"}></div>
-					<div class={"circle-outline"}></div>
-					<div class={"circle-outline"}></div>
-					<div class={"circle-outline"}></div>
-				</div>;
-				if (this.dataFromAPI.rating.rate <= 2) {
-					return;
-					<div>
-						<div class={"circle"}></div>
-						<div class={"circle"}></div>
-						<div class={"circle-outline"}></div>
-						<div class={"circle-outline"}></div>
-						<div class={"circle-outline"}></div>
-					</div>;
-					if (this.dataFromAPI.rating.rate <= 3) {
-						return;
-						<div>
-							<div class={"circle"}></div>
-							<div class={"circle"}></div>
-							<div class={"circle"}></div>
-							<div class={"circle-outline"}></div>
-							<div class={"circle-outline"}></div>
-						</div>;
-						if (this.dataFromAPI.rating.rate <= 4) {
-							return;
-							<div>
-								<div class={"circle"}></div>
-								<div class={"circle"}></div>
-								<div class={"circle"}></div>
-								<div class={"circle"}></div>
-								<div class={"circle-outline"}></div>
-							</div>;
-							if (this.dataFromAPI.rating.rate <= 4) {
-								return;
-								<div>
-									<div class={"circle"}></div>
-									<div class={"circle"}></div>
-									<div class={"circle"}></div>
-									<div class={"circle"}></div>
-									<div class={"circle"}></div>
-								</div>;
-							}
-						}
-					}
-				}
-			}
+			console.log(typeof bulletRating);
 		},
 	},
 	mounted() {
@@ -114,7 +59,6 @@ export default {
 				style: "currency",
 				currency: "USD",
 			}).format(this.dataFromAPI.price);
-			// console.log(this.formatNumber(123));
 		},
 	},
 };
@@ -129,7 +73,6 @@ export default {
 				</div>
 				<div style="width: 100%">
 					<div style="height: 70px">
-						<!-- <h1 :class="womens === true ? 'women-title' : 'men-title'"> -->
 						<h1 :class="womens === true ? 'women-title' : 'men-title'">
 							{{ dataFromAPI.title }}
 						</h1>
@@ -146,11 +89,28 @@ export default {
 						<div style="display: flex; gap: 0.5rem">
 							<span>{{ this.dataFromAPI.rating.rate }}/5</span>
 							<div style="gap: 4px; display: flex; align-items: baseline">
-								<div class="women-circle"></div>
-								<div class="women-circle"></div>
-								<div class="women-circle"></div>
-								<div class="women-circle"></div>
-								<div class="women-circle"></div>
+								<div
+									:class="
+										womens === true ? 'women-circle' : 'men-circle'
+									"></div>
+								<div
+									:class="
+										womens === true ? 'women-circle' : 'men-circle'
+									"></div>
+								<div
+									:class="
+										womens === true ? 'women-circle' : 'men-circle'
+									"></div>
+								<div
+									:class="
+										womens === true ? 'women-circle' : 'men-circle'
+									"></div>
+								<div
+									:class="
+										womens === true
+											? 'women-circle-outline'
+											: 'men-circle-outline'
+									"></div>
 							</div>
 						</div>
 					</div>
@@ -193,6 +153,8 @@ export default {
 		<div v-if="isLoading" class="loader"></div>
 	</div>
 	<img
+		v-if="isProductAvailable"
 		:class="womens === true ? 'bg-women' : 'bg-men'"
 		src="../assets/bg-pattern.png" />
+	<img v-else class="bg-unv" src="../assets/bg-pattern.png" />
 </template>
